@@ -1,0 +1,5 @@
+{
+  "name": "Ocupacion Hesperia 2025",
+  "description": "A web application to calculate and forecast hotel occupancy, and generate a shareable summary image. Designed for Hesperia Playa El Agua.",
+  "requestFramePermissions": []
+}

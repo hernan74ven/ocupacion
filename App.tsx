@@ -5,8 +5,30 @@ import { GoogleGenAI } from '@google/genai';
 // @ts-ignore
 import html2canvas from 'html2canvas';
 
-// --- Gemini AI Initialization ---
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+// --- API Key Error Component ---
+const ApiKeyError: React.FC = () => (
+    <div className="flex items-center justify-center min-h-screen p-4 text-center">
+        <div className="main-container max-w-2xl p-8 rounded-2xl shadow-xl relative">
+             <div className="text-center mb-8">
+                 <i className="fas fa-exclamation-triangle text-5xl text-yellow-400 mb-4"></i>
+                <h1 className="text-3xl font-bold mb-4">Configuración Requerida</h1>
+                <p className="text-lg mb-6" style={{ color: 'var(--text-color-secondary)' }}>
+                    No se ha encontrado tu clave de API de Gemini. Para continuar, sigue estos pasos:
+                </p>
+                <div className="text-left p-6 rounded-lg font-mono text-sm" style={{backgroundColor: 'var(--bg-input)'}}>
+                    <p className="mb-2">1. Crea un archivo llamado <code className="font-bold p-1 rounded" style={{backgroundColor: 'rgba(0,0,0,0.2)'}}>.env.local</code> en la carpeta principal del proyecto.</p>
+                    <p className="mt-4">2. Agrega la siguiente línea a ese archivo, reemplazando <code className="font-bold p-1 rounded" style={{backgroundColor: 'rgba(0,0,0,0.2)'}}>TU_API_KEY</code> con tu clave real:</p>
+                    <code className="block bg-black text-green-300 p-3 rounded mt-2 text-md">GEMINI_API_KEY="TU_API_KEY"</code>
+                    <p className="mt-4">3. Guarda el archivo y <strong className="font-bold text-yellow-400">reinicia el servidor de desarrollo</strong>.</p>
+                </div>
+                 <p className="text-sm mt-6" style={{ color: 'var(--text-color-tertiary)' }}>
+                    Si no tienes una clave, puedes obtener una en Google AI Studio.
+                </p>
+            </div>
+        </div>
+    </div>
+);
+
 
 // --- IndexedDB Database Helpers ---
 
@@ -423,6 +445,21 @@ const App: React.FC = () => {
     const [historicalReports, setHistoricalReports] = useState<HistoricalReport[]>([]);
 
     const imageTemplateRef = useRef<HTMLDivElement>(null);
+    
+    const apiKey = process.env.API_KEY;
+
+    const ai = useMemo(() => {
+        if (!apiKey) {
+            console.error("GEMINI_API_KEY not found. Please set it in your .env.local file.");
+            return null;
+        }
+        try {
+            return new GoogleGenAI({ apiKey });
+        } catch (error) {
+            console.error("Error initializing GoogleGenAI:", error);
+            return null;
+        }
+    }, [apiKey]);
 
     const showToast = useCallback((message: string, type: ToastState['type']) => {
         setToast({ message, type });
@@ -591,6 +628,10 @@ const App: React.FC = () => {
     };
     
     const handleGenerateAnalysis = async () => {
+        if (!ai) {
+            showToast('Cliente de IA no inicializado. Verifica tu API Key.', 'error');
+            return;
+        }
         setIsAnalyzing(true);
         setAnalysis('');
         showToast('La IA está analizando los datos...', 'info');
@@ -700,6 +741,11 @@ Enfócate en los puntos clave y finaliza con una nota positiva.`;
             }
         }
     };
+
+
+    if (!ai) {
+        return <ApiKeyError />;
+    }
 
 
     const sections: { name: SectionName, title: string, icon: string }[] = [

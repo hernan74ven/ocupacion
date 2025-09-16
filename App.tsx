@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useMemo, useRef, useCallback, forwardRef } from 'react';
 import type { OccupancySectionData, SectionName, ImageTheme, UiTheme, CalculatedResults, ToastState, HistoricalReport } from './types';
 import { GoogleGenAI } from '@google/genai';
@@ -349,7 +348,6 @@ const HistoryModal: React.FC<HistoryModalProps> = ({ isOpen, onClose, reports, o
         <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 p-4 modal-overlay" onClick={onClose}>
             <div className="modal-content w-full max-w-2xl rounded-2xl shadow-xl p-6 max-h-[80vh] flex flex-col" onClick={e => e.stopPropagation()}>
                 <div className="flex justify-between items-center mb-4">
-                    {/* FIX: Corrected typo from hh2 to h2 for a valid HTML heading element. */}
                     <h2 className="text-2xl font-bold">Historial de Reportes</h2>
                     <button onClick={onClose} className="p-2 rounded-full hover:opacity-70 transition-opacity">
                         <i className="fas fa-times text-xl"></i>
@@ -442,11 +440,6 @@ const App: React.FC = () => {
     
     // Load data from IndexedDB on initial mount
     useEffect(() => {
-        // Guard: Only run this on the client-side where browser APIs are available.
-        if (typeof window === 'undefined') {
-            return;
-        }
-
         const loadInitialState = async () => {
             try {
                 const savedState = await getFromDB<any>(STATE_KEY);

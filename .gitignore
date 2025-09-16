@@ -1,22 +1,31 @@
-# Logs
-logs
-*.log
+# Dependencias de Node.js
+# No es necesario guardar los paquetes, se pueden instalar con `npm install`
+/node_modules
+
+# Archivos de compilación de Vite
+# Estos se generan al construir la aplicación y no deben estar en el repositorio
+/dist
+/.vite
+
+# Archivos de entorno
+# ¡MUY IMPORTANTE! Esto evita que subas tus claves de API secretas
+.env
+.env.local
+.env.*.local
+
+# Archivos de registro (logs)
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
-lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
-*.local
-
-# Editor directories and files
-.vscode/*
-!.vscode/extensions.json
-.idea
+# Archivos generados por el sistema operativo
 .DS_Store
+Thumbs.db
+
+# Configuraciones de editores de código
+.idea/
+.vscode/
 *.suo
 *.ntvs*
 *.njsproj

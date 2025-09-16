@@ -1,16 +1,24 @@
-# Dependencias
-/node_modules
-
-# Archivos de entorno (contienen secretos)
-.env
-.env.local
-.env.*
-
-# Archivos de construcción (Vercel los genera por su cuenta)
-/dist
-
-# Logs y archivos del sistema
+# Logs
+logs
+*.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
 .DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
